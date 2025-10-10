@@ -7,12 +7,7 @@
 #define MAX_LENGTH 256
 
 
-int mainMenu() {
-    const int respond = 1;
-    const int playbooks = 2;
-    const int exit = 3;
-    char buffer[10];
-    int userMenuInput;
+void mainMenu(char *userMenuInput, size_t size) {
     char *menuPage = 
             "\n\n"
             "====================================================\n"
@@ -25,12 +20,9 @@ int mainMenu() {
 
     printf("%s", menuPage);
     printf("Please select an option: ");
-    if (fgets(buffer, sizeof(buffer), stdin) == NULL) {
-        return -1;
-    }
-
-    userMenuInput = atoi(buffer);
-    return userMenuInput;
+    fgets(userMenuInput, size, stdin);
+    userMenuInput[strcspn(userMenuInput, "\n")] = 0;
+    return;
 }
 
 
@@ -44,16 +36,20 @@ void helpMenu() {
         "| tasklist      | List the processes.                           |\n"
         "| taskkill      | Kill a process.                               |\n"
         "| schtasks      | Manage scheduled tasks.                       |\n"
-        "=================================================================\n"
-        "\n> ";
+        "=================================================================\n";
     printf("%s", helpPage);
     return;
 }
 
 
 char *userInput(char *command, size_t size) {
-    fgets(command, size, stdin);
-    command[strcspn(command, "\n")] = 0;
+    do {
+        printf("> ");
+        if (fgets(command, size, stdin) == NULL) {
+            return command;
+        }
+        command[strcspn(command, "\n")] = 0;
+    } while (strlen(command) == 0);
     return command;
 }
 
@@ -170,7 +166,7 @@ int processInput(char *command, size_t size, char *answer, int *life) {
             helpMenu();
         } else {
             (*life)++;
-            printf("Wrong or unrecognized command. Please try again.\n> ");
+            printf("Wrong or unrecognized command. Please try again.\n");
             if (*life >= 3) {
                 printf("\nGame over. You have been compromised!");
                 return 0;
@@ -199,10 +195,9 @@ void scenarioOne() {
             "a suspicious 'Temp' folder located in the root drive, where the exfiltrated data is being staged. Furthermore,\n"
             "an adisory from CISA confirms that the threat actor utilizes EC2 instances for command & control (C2).\n\n"
             "As one of the incident responders, follow the response playbook to remediate the risk.\n";
-    
-    printf ("%s", scenarioBackground);
 
-    printf("\n1. Beginning the response, connect to the infected machine as an admin via RDP using the IP address and default port.\n> ");
+    printf ("%s", scenarioBackground);
+    printf("\n1. Beginning the response, connect to the infected machine as an admin via RDP using the IP address and default port.\n");
     answer = "mstsc /v:192.168.50.100 /admin";
     status = processInput(command, sizeof(command), answer, &life);
     if (status == 1) {
@@ -213,7 +208,7 @@ void scenarioOne() {
     
 
 
-    printf("\n2. Identify the running processes in the infected machine.\n> ");
+    printf("\n2. Identify the running processes in the infected machine.\n");
     answer = "tasklist /fi \"status eq running\"";
     status = processInput(command, sizeof(command), answer, &life);
     if (status == 1) {
@@ -232,7 +227,7 @@ void scenarioOne() {
     }
 
 
-    printf("\n3. Analyze the list of running processes, identify which is malicious, and kill it with its PID.\n> ");
+    printf("\n3. Analyze the list of running processes, identify which is malicious, and kill it with its PID.\n");
     answer = "taskkill /pid 4496";
     status = processInput(command, sizeof(command), answer, &life);
     if (status == 1) {
@@ -241,7 +236,7 @@ void scenarioOne() {
         return;
     }
 
-    printf("\n4. Knowing the method of persistence employed by the threat actor, list the configured scheduled tasks in the system in verbose mode.\n> ");
+    printf("\n4. Knowing the method of persistence employed by the threat actor, list the configured scheduled tasks in the system in verbose mode.\n");
     answer = "schtasks /query /v";
     status = processInput(command, sizeof(command), answer, &life);
     if (status == 1) {
@@ -262,7 +257,7 @@ void scenarioOne() {
         return;
     }
 
-    printf("\n5. Identify and delete the scheduled task used for persistence.\n> ");
+    printf("\n5. Identify and delete the scheduled task used for persistence.\n");
     answer = "schtasks /delete /tn MSUpdate";
     status = processInput(command, sizeof(command), answer, &life);
     if (status == 1) {
@@ -276,17 +271,19 @@ void scenarioOne() {
 
 int main() {
     int running = 1;
+    char menuSelected[MAX_LENGTH];
     while (running == 1) {
-        int menuSelected = mainMenu();
-        if (menuSelected == 1) {
+        mainMenu(menuSelected, sizeof(menuSelected));
+        strToLower(menuSelected);
+        if ((strcmp(menuSelected, "respond") == 0) || (strcmp(menuSelected, "1") == 0)) {
             scenarioOne();
-        } else if (menuSelected == 2) {
-            printf("Go to playbook");
-        } else if (menuSelected == 3) {
+        } else if ((strcmp(menuSelected, "playbook") == 0) || (strcmp(menuSelected, "2") == 0)) {
+            printf("Go to playbook...");
+        } else if ((strcmp(menuSelected, "exit") == 0) || (strcmp(menuSelected, "3") == 0)) {
             printf("Exiting...");
             running = 0;
         } else {
-            printf("Invalid option selected. Pleae try again.");
+            printf("Invalid option selected. Please try again.");
         }
     }
     return 0;
