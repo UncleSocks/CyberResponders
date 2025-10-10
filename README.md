@@ -5,4 +5,4 @@
 
 The goal of the game is to provide an entertaining way to familiarize users with emulated Windows CMD commands while being in the shoes of an incident responder. 
 
-### Still Underdeployment
+### Still under deployment, but playable.
