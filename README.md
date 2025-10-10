@@ -1,4 +1,4 @@
-<img width="1107" height="211" alt="image" src="https://github.com/user-attachments/assets/67fd2f9b-b020-43c3-ad04-2d9e6e83ef29" />
+<img width="786" height="216" alt="image" src="https://github.com/user-attachments/assets/1f984a6c-cd88-42a8-b389-87d8c7227f04" />
 
 ##
 **CyberResponders** is a terminal-based cybersecurity training game that enables players to respond to different cyber incident scenarios. Here, they have three chances to enter the correct command before the system becomes completely compromised, resulting in a game over! 
