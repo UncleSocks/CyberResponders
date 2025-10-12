@@ -7,7 +7,7 @@
 #define MAX_LENGTH 256
 
 
-void mainMenu(char *userMenuInput, size_t size) {
+void mainMenu() {
     char *menuPage = 
             "\n\n"
             "====================================================\n"
@@ -19,9 +19,9 @@ void mainMenu(char *userMenuInput, size_t size) {
             "====================================================\n";
 
     printf("%s", menuPage);
-    printf("Please select an option: ");
-    fgets(userMenuInput, size, stdin);
-    userMenuInput[strcspn(userMenuInput, "\n")] = 0;
+    printf("Please select an option:\n");
+    //fgets(userMenuInput, size, stdin);
+    //userMenuInput[strcspn(userMenuInput, "\n")] = 0;
     return;
 }
 
@@ -32,10 +32,12 @@ void helpMenu() {
         "=================================================================\n"
         "| Command       | Description                                   |\n"
         "|===============================================================|\n"
+        "| del           | Delete a file or folder.                      |\n"
+        "| dir           | Enumerate a folder (directory).               |\n"
         "| mstsc         | Interactively connect to a remote desktop.    |\n"
+        "| schtasks      | Manage scheduled tasks.                       |\n" 
         "| tasklist      | List the processes.                           |\n"
         "| taskkill      | Kill a process.                               |\n"
-        "| schtasks      | Manage scheduled tasks.                       |\n"
         "=================================================================\n";
     printf("%s", helpPage);
     return;
@@ -264,6 +266,80 @@ void scenarioOne() {
         printf ("Scheduled task 'MSUpdate' successfully deleted.\n");
     }
 
+    printf("\n6. Enumerate the contents of the Temp directory of user 'wapols.'\nNote: Make sure to add the trailing '\\' character.\n");
+    answer = "dir C:\\Users\\wapols\\AppData\\Local\\Temp\\";
+    status = processInput(command, sizeof(command), answer, &life);
+    if (status == 1) {
+        char *tempDir = 
+                "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
+                "=================================================================\n"
+                "| Date Modified       | Type     | Size        | Name           |\n"
+                "=================================================================\n"
+                "| 01/07/2025 9:13 AM  | <DIR>    |             | .              |\n"
+                "| 01/07/2025 9:13 AM  | <DIR>    |             | ..             |\n"
+                "| 03/06/2025 3:15 PM  |          | 128,382     | 170D-0ds3.tmp  |\n"
+                "| 03/09/2025 3:18 AM  |          | 137,901     | 200T-992f.tmp  |\n"
+                "| 10/15/2025 10:15 PM |          | 894,100,211 | 436Pds.dll     |\n"
+                "| 05/16/2025 9:08 AM  |          | 98,910      | cdstmp_1041.gz |\n"
+                "| 05/16/2025 9:12 AM  |          | 100,485     | clsctt_2041.gz |\n"
+                "| 09/30/2025 8:15 AM  | <DIR>    |             | lfuwih.sdr     |\n"
+                "=================================================================\n";
+
+        printf("%s", tempDir);
+    } else {
+        return;
+    }
+
+    printf("\n7. Identify and delete the malicious binary in the user's Temp folder.\n");
+    answer = "del C:\\Users\\wapols\\AppData\\Local\\Temp\\436Pds.dll";
+    status = processInput(command, sizeof(command), answer, &life);
+    if (status == 1) {
+        printf("File '436Pds.dll' successfully deleted.\n");
+    } else {
+        return;
+    }
+
+    printf("\n8. Identify and confirm the directory where the threat actor is staging the data to be exfiltrated.\n");
+    answer = "dir C:\\Temp\\";
+    status = processInput(command, sizeof(command), answer, &life);
+    if (status == 1) {
+        char *exfilDir = 
+                "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
+                "=================================================================\n"
+                "| Date Modified       | Type     | Size        | Name           |\n"
+                "=================================================================\n"
+                "| 01/07/2025 9:13 AM  | <DIR>    |             | .              |\n"
+                "| 01/07/2025 9:13 AM  | <DIR>    |             | ..             |\n"
+                "| 10/15/2025 11:09 PM |          | 91,732      | hashedCred.txt |\n"
+                "| 10/15/2025 11:11 PM |          | 33,180,221  | lsass.dmp      |\n"
+                "=================================================================\n";
+        printf("%s", exfilDir);
+    } else {
+        return;
+    }
+
+    printf("\n9. Delete the 'Temp' directory with the exfiltrated files.\n");
+    answer = "rmdir C:\\Temp\\ /s";
+    status = processInput(command, sizeof(command), answer, &life);
+    if (status == 1) {
+        printf("Directory 'C:\\Temp' successfully deleted.\n");
+    } else {
+        return;
+    }
+
+    printf("\n10. To further remediate the risk of re-compromise, reset the password of the affected user to 'T3mpP@ss'\n");
+    answer = "net user wapols T3mpP@ss";
+    status = processInput(command, sizeof(command), answer, &life);
+    if (status == 1) {
+        printf("Password for user 'wapols' has been changed.");
+    } else {
+        return;
+    }
+
+
+
+    printf("Risk has been remediated.\n");
+    printf("Returning to main menu...");
     return;
 
 }
@@ -272,18 +348,21 @@ void scenarioOne() {
 int main() {
     int running = 1;
     char menuSelected[MAX_LENGTH];
+    mainMenu();
     while (running == 1) {
-        mainMenu(menuSelected, sizeof(menuSelected));
+        userInput(menuSelected, sizeof(menuSelected));
         strToLower(menuSelected);
         if ((strcmp(menuSelected, "respond") == 0) || (strcmp(menuSelected, "1") == 0)) {
             scenarioOne();
+            mainMenu();
         } else if ((strcmp(menuSelected, "playbook") == 0) || (strcmp(menuSelected, "2") == 0)) {
             printf("Go to playbook...");
+            mainMenu();
         } else if ((strcmp(menuSelected, "exit") == 0) || (strcmp(menuSelected, "3") == 0)) {
             printf("Exiting...");
             running = 0;
         } else {
-            printf("Invalid option selected. Please try again.");
+            printf("Invalid option selected. Please try again.\n");
         }
     }
     return 0;
