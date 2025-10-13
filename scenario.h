@@ -2,7 +2,6 @@
 #define SCENARIO_H
 
 struct Incident {
-    int caseNo;
     char *title;
     char *background;
     struct Playbook *steps;
@@ -15,5 +14,16 @@ struct Playbook {
     char *terminalOut;
 };
 
+struct Cases {
+    char *caseId;
+    char *caseTitle;
+    struct Incident *incidentPtr;
+};
+
+
+extern struct Cases list[];
+extern int caseList;
+
 extern struct Incident s1;
+
 #endif

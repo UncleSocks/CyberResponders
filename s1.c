@@ -95,8 +95,7 @@ struct Playbook s1Steps[] = {
 
 
 struct Incident s1 = {
-    .caseNo = 1,
-    .title = "\n\nCASE IR001: UNKNOWN MALWARE INFECTION ON A WORKSTATION\n",
+    .title = "\n\nCASE-IR-1: UNKNOWN MALWARE INFECTION ON A WORKSTATION\n",
     .background =         
         "Meeps Security has identified that endpoint CORP\\WST1 (192.168.50.100) has been compromised by a malware.\n"
         "According to the client's Cyber Threat Intelligence group, the malware is known to spoof well-known Microsoft\n"

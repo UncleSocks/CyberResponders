@@ -182,20 +182,20 @@ int processInput(char *command, size_t size, char *answer, int *life) {
 }
 
 
-void scenarioViewer (int scenario) {
+void scenarioViewer (struct Incident *incident) {
     int status;
     int life = 3;
     char command[200];
     char *answer;
 
-    printf(s1.title);
-    printf(s1.background);
-    for (int step = 0; step < s1.stepCount; step++) {
-        printf("%s", s1.steps[step].question);
-        answer = s1.steps[step].answer;
+    printf("%s\n", incident->title);
+    printf("%s\n", incident->background);
+    for (int step = 0; step < incident->stepCount; step++) {
+        printf("%s", incident->steps[step].question);
+        answer = incident->steps[step].answer;
         status = processInput(command, sizeof(command), answer, &life);
         if (status == 1) {
-            printf("%s", s1.steps[step].terminalOut);
+            printf("%s", incident->steps[step].terminalOut);
         } else {
             return;
         }
@@ -203,6 +203,31 @@ void scenarioViewer (int scenario) {
     printf("\nRisk has been remediated.\n");
     printf("Returning to main menu...");
     return;
+}
+
+
+void displayCases () {
+    printf("\n====================================== CASE LIST ======================================\n");
+    for (int i = 0; i < caseList; i++) {
+        printf("ID: %s - %s", list[i].caseId, list[i].caseTitle);
+    }
+    printf("\n=======================================================================================\n");
+    return;
+}
+
+
+void caseSelector () {
+    char selectedCase[32];
+    displayCases ();
+    printf("Select a case to respond:\n");
+    userInput(selectedCase, sizeof(selectedCase));
+    for (int i = 0; i < caseList; i++) {
+        if (strcmp(selectedCase, list[i].caseId) == 0) {
+            scenarioViewer(list[i].incidentPtr);
+            return;
+        }
+    }
+
 }
 
 
@@ -214,7 +239,7 @@ int main() {
         userInput(menuSelected, sizeof(menuSelected));
         strToLower(menuSelected);
         if ((strcmp(menuSelected, "respond") == 0) || (strcmp(menuSelected, "1") == 0)) {
-            scenarioViewer(1);
+            caseSelector();
             mainMenu();
         } else if ((strcmp(menuSelected, "commands") == 0) || (strcmp(menuSelected, "2") == 0)) {
             printf("Go to command list page...");
