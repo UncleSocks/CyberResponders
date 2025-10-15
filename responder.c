@@ -32,9 +32,10 @@ void helpMenu() {
         "=================================================================\n"
         "| Command       | Description                                   |\n"
         "|===============================================================|\n"
-        "| del           | Delete a file or folder.                      |\n"
+        "| del           | Delete a file.                                |\n"
         "| dir           | Enumerate a folder (directory).               |\n"
         "| mstsc         | Interactively connect to a remote desktop.    |\n"
+        "| rmdir         | Delete a folder (directory).                  |\n"
         "| schtasks      | Manage scheduled tasks.                       |\n" 
         "| tasklist      | List the processes.                           |\n"
         "| taskkill      | Kill a process.                               |\n"
@@ -137,7 +138,6 @@ int compareCmd(char *cmd, char *ans) {
 
     int cmdCounter = parseCmd(cmdBuffer, cmdArgs, cmdCommand, cmdOptions);
     int ansCounter = parseCmd(ansBuffer, ansArgs, ansCommand, ansOptions);
-    printf("%s - %s", cmdArgs[0], ansArgs[0]);
     if (cmdCounter == 0 || ansCounter == 0 || strcmp(cmdArgs[0], ansArgs[0]) != 0) {
         return 0;
     }
@@ -188,7 +188,7 @@ int processInput(char *command, size_t size, char *answer, int *life) {
 
 void scenarioViewer (struct Incident *incident) {
     int status;
-    int life = 3;
+    int life = 5;
     char command[200];
     char *answer;
 
@@ -226,10 +226,15 @@ void caseSelector () {
     printf("Select a case to respond:\n");
     userInput(selectedCase, sizeof(selectedCase));
     for (int i = 0; i < caseList; i++) {
-        if (strcmp(selectedCase, list[i].caseId) == 0) {
-            scenarioViewer(list[i].incidentPtr);
-            return;
+        while (strcmp(selectedCase, list[i].caseId) != 0) {
+            if (strcmp(selectedCase, "back") == 0 ) {
+                return;
+            }
+            printf("Case ID not found.\n");
+            userInput(selectedCase, sizeof(selectedCase));
         }
+        scenarioViewer(list[i].incidentPtr);
+        return;
     }
 
 }
