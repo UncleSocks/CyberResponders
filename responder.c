@@ -85,55 +85,59 @@ char *trimStr(char *str) {
 }
 
 
-int parseCmd(char *cmd, char *args[MAX_ARGS]) {
-    char *pointer = cmd;
-    char *pointerStart = cmd;
-    int argsCounter = 0;
-    int spaceCounter = 0;
+int parseCmd(char *cmd, char *args[MAX_ARGS], char *command, char *options) {
+    int argsCounter = 1;
+    char *optionStart = strchr(cmd, '/');
+    if(optionStart != NULL) {
+        size_t cmdLen = optionStart - cmd;
+        strncpy(command, cmd, cmdLen);
+        command[cmdLen] = '\0';
+        args[0] = command;
+        strcpy(options, optionStart);
+        char *pointer = options;
+        char *pointerStart = options;
 
-    while (*pointer) {
-        if (isspace((unsigned char)*pointer) && spaceCounter < 1) {
-            *pointer = '\0';
-            if (*pointerStart != '\0') {
-                pointerStart = trimStr(pointerStart);
-                strToLower(pointerStart);
-                args[argsCounter++] = pointerStart;
+        while (*pointer) {
+            if (*pointer == '/') {
+                *pointer = '\0';
+                if (*pointerStart != '\0') {
+                    pointerStart = trimStr(pointerStart);
+                    strToLower(pointerStart);
+                    args[argsCounter++] = pointerStart;
+                }
+                pointerStart = pointer + 1; 
             }
-            pointerStart = pointer + 1;
-            spaceCounter++;
-        } else if (*pointer == '/') {
-            *pointer = '\0';
-            if (*pointerStart != '\0') {
-                pointerStart = trimStr(pointerStart);
-                strToLower(pointerStart);
-                args[argsCounter++] = pointerStart;
-            }
-            pointerStart = pointer + 1; 
+            pointer++;
         }
-        pointer++;
+
+        if (*pointerStart != '\0') {
+            pointerStart = trimStr(pointerStart);
+            strToLower(pointerStart);
+            args[argsCounter++] = pointerStart;
+        }
+    } else {
+        strcpy (command, cmd);
+        strToLower(command);
+        args[0] = command;
     }
 
-    if (*pointerStart != '\0') {
-        pointerStart = trimStr(pointerStart);
-        strToLower(pointerStart);
-        args[argsCounter++] = pointerStart;
-    }
 
     return argsCounter;
 }
 
 
 int compareCmd(char *cmd, char *ans) {
-    char cmdBuffer[MAX_LENGTH];
-    char ansBuffer[MAX_LENGTH];
+    char cmdCommand[MAX_LENGTH], ansCommand[MAX_LENGTH];
+    char cmdOptions[MAX_LENGTH], ansOptions[MAX_LENGTH];
+    char cmdBuffer[MAX_LENGTH], ansBuffer[MAX_LENGTH];
     char *cmdArgs[MAX_ARGS], *ansArgs[MAX_ARGS];
 
     strcpy(cmdBuffer, cmd);
     strcpy(ansBuffer, ans);
 
-    int cmdCounter = parseCmd(cmdBuffer, cmdArgs);
-    int ansCounter = parseCmd(ansBuffer, ansArgs);
-
+    int cmdCounter = parseCmd(cmdBuffer, cmdArgs, cmdCommand, cmdOptions);
+    int ansCounter = parseCmd(ansBuffer, ansArgs, ansCommand, ansOptions);
+    printf("%s - %s", cmdArgs[0], ansArgs[0]);
     if (cmdCounter == 0 || ansCounter == 0 || strcmp(cmdArgs[0], ansArgs[0]) != 0) {
         return 0;
     }
