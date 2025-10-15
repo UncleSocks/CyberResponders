@@ -195,7 +195,7 @@ void scenarioViewer (struct Incident *incident) {
     printf("%s\n", incident->title);
     printf("%s\n", incident->background);
     for (int step = 0; step < incident->stepCount; step++) {
-        printf("%s", incident->steps[step].question);
+        printf("\n%d. %s", incident->steps[step].stepNo, incident->steps[step].question);
         answer = incident->steps[step].answer;
         status = processInput(command, sizeof(command), answer, &life);
         if (status == 1) {

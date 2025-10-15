@@ -9,6 +9,7 @@ struct Incident {
 };
 
 struct Playbook {
+    int stepNo;
     char *question;
     char *answer;
     char *terminalOut;
