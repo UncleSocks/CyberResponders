@@ -223,14 +223,14 @@ void displayCases () {
 void caseSelector () {
     char selectedCase[32];
     displayCases ();
-    printf("Select a case to respond:\n");
+    printf("Select a case ID to respond:\n");
     userInput(selectedCase, sizeof(selectedCase));
     for (int i = 0; i < caseList; i++) {
         while (strcmp(selectedCase, list[i].caseId) != 0) {
             if (strcmp(selectedCase, "back") == 0 ) {
                 return;
             }
-            printf("Case ID not found.\n");
+            printf("Case ID not found. Please try again.\n");
             userInput(selectedCase, sizeof(selectedCase));
         }
         scenarioViewer(list[i].incidentPtr);
