@@ -143,10 +143,10 @@ int compareCmd(char *cmd, char *ans) {
     }
 
     int matchTrack[MAX_ARGS] = {0};
-    for (int i = 1; i < ansCounter; i++) {
+    for (int i = 1; i < cmdCounter; i++) {
         int matched = 0;
-        for (int j = 1; j < cmdCounter; j++) {
-            if (!matchTrack[j] && strcmp(ansArgs[i], cmdArgs[j]) == 0){
+        for (int j = 1; j < ansCounter; j++) {
+            if (!matchTrack[j] && strcmp(cmdArgs[i], ansArgs[j]) == 0){
                 matchTrack[j] = 1;
                 matched = 1;
                 break;
