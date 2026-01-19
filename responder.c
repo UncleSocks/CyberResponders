@@ -222,7 +222,6 @@ void scenarioViewer (struct Incident *incident) {
         if (incident->steps[step].arguments != NULL) {
             arguments = incident->steps[step].arguments;
             argsCount = getNumArgs(arguments);
-            printf("%d", argsCount);
         }
         status = processInput(answer, sizeof(answer), command, arguments, argsCount, &life);
         if (status == 1) {
