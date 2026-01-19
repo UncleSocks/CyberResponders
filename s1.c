@@ -6,13 +6,15 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 1,
             .question = "Beginning the response, connect to the infected machine as an admin via RDP using the IP address and default port.\n",
-            .answer = "mstsc /v:192.168.50.100 /admin",
+            .command = "mstsc",
+            .arguments = {"v:192.168.50.100", "admin", NULL},
             .terminalOut = "Connecting to CORP\\WST1 as an admin...\nConnected!\n"
         },
         {
             .stepNo = 2,
-            .question = "Identify the running processes in the infected machine.\n",
-            .answer = "tasklist /fi \"status eq running\"",
+            .question = "After connecting to the remote machine, identify the running processes in the infected machine.\n",
+            .command = "tasklist",
+            .arguments = {"fi \"status eq running\"", NULL},
             .terminalOut = "Running Processes:\n"
             "====================================================\n"
             "| Image Name          | PID     | Mem Usage        |\n"
@@ -25,13 +27,15 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 3,
             .question = "Analyze the list of running processes, identify which is malicious, and kill it with its PID.\n",
-            .answer = "taskkill /pid 4496",
+            .command = "taskkill",
+            .arguments = {"pid 4496", NULL},
             .terminalOut = "Process explorerr.exe:4496 successfully killed.\n"
         },
         {
             .stepNo = 4,
-            .question = "Knowing the method of persistence employed by the threat actor, list the configured scheduled tasks in the system in verbose mode.\n",
-            .answer = "schtasks /query /v",
+            .question = "Knowing the method of persistence employed by the threat actor, list the configured scheduled tasks in the system.\n",
+            .command = "schtasks",
+            .arguments = {"query", NULL},
             .terminalOut = "Scheduled Tasks:\n"
                 "==================================================================================================\n"
                 "| Task Name      | Author     | Trigger              | Task to Run                               |\n"
@@ -47,13 +51,14 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 5,
             .question = "Identify and delete the scheduled task used for persistence.\n",
-            .answer = "schtasks /delete /tn MSUpdate",
+            .command = "schtasks /delete /tn MSUpdate",
+            .arguments = {"delete", "tn MSUpdate", NULL},
             .terminalOut = "Scheduled task 'MSUpdate' successfully deleted.\n"
         },
         {
             .stepNo = 6,
             .question = "Enumerate the contents of the Temp directory of user 'wapols.'\nNote: Make sure to add the trailing '\\' character.\n",
-            .answer = "dir C:\\Users\\wapols\\AppData\\Local\\Temp\\",
+            .command = "dir C:\\Users\\wapols\\AppData\\Local\\Temp\\",
             .terminalOut = "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
                 "=================================================================\n"
                 "| Date Modified       | Type     | Size        | Name           |\n"
@@ -71,13 +76,13 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 7,
             .question = "Identify and delete the malicious binary in the user's Temp folder.\n",
-            .answer = "del C:\\Users\\wapols\\AppData\\Local\\Temp\\436Pds.dll",
+            .command = "del C:\\Users\\wapols\\AppData\\Local\\Temp\\436Pds.dll",
             .terminalOut = "File '436Pds.dll' successfully deleted.\n"
         },
         {
             .stepNo = 8,
             .question = "Identify and confirm the directory where the threat actor is staging the data to be exfiltrated.\n",
-            .answer = "dir C:\\Temp\\",
+            .command = "dir C:\\Temp\\",
             .terminalOut = "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
                 "=================================================================\n"
                 "| Date Modified       | Type     | Size        | Name           |\n"
@@ -91,13 +96,14 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 9,
             .question = "Delete the 'Temp' directory with the exfiltrated files.\n",
-            .answer = "rmdir C:\\Temp\\ /s",
+            .command = "rmdir C:\\Temp\\",
+            .arguments = {"s", NULL},
             .terminalOut = "Directory 'C:\\Temp' successfully deleted.\n"
         }, 
         {
             .stepNo = 10,
             .question = "To further remediate the risk of re-compromise, reset the password of the affected user to 't3mpp@ss'\n",
-            .answer = "net user wapols T3mpP@ss",
+            .command = "net user wapols T3mpP@ss",
             .terminalOut = "Password for user 'wapols' has been changed.\n"
         }
 

@@ -45,15 +45,15 @@ void helpMenu() {
 }
 
 
-char *userInput(char *command, size_t size) {
+char *userInput(char *answer, size_t size) {
     do {
         printf("> ");
-        if (fgets(command, size, stdin) == NULL) {
-            return command;
+        if (fgets(answer, size, stdin) == NULL) {
+            return answer;
         }
-        command[strcspn(command, "\n")] = 0;
-    } while (strlen(command) == 0);
-    return command;
+        answer[strcspn(answer, "\n")] = 0;
+    } while (strlen(answer) == 0);
+    return answer;
 }
 
 
@@ -85,6 +85,14 @@ char *trimStr(char *str) {
     return str;
 }
 
+int getNumArgs(char *args[]) {
+    int count = 0;
+    while (count < 32 && args[count] != NULL) {
+        count++;
+    }
+    return count;
+}
+
 
 int parseCmd(char *cmd, char *args[MAX_ARGS], char *command, char *options) {
     int argsCounter = 1;
@@ -93,6 +101,9 @@ int parseCmd(char *cmd, char *args[MAX_ARGS], char *command, char *options) {
         size_t cmdLen = optionStart - cmd;
         strncpy(command, cmd, cmdLen);
         command[cmdLen] = '\0';
+
+        char *trimmedCmd = trimStr(command);
+        memmove(command, trimmedCmd, strlen(trimmedCmd) + 1);
         args[0] = command;
         strcpy(options, optionStart);
         char *pointer = options;
@@ -127,43 +138,52 @@ int parseCmd(char *cmd, char *args[MAX_ARGS], char *command, char *options) {
 }
 
 
-int compareCmd(char *cmd, char *ans) {
-    char cmdCommand[MAX_LENGTH], ansCommand[MAX_LENGTH];
-    char cmdOptions[MAX_LENGTH], ansOptions[MAX_LENGTH];
-    char cmdBuffer[MAX_LENGTH], ansBuffer[MAX_LENGTH];
-    char *cmdArgs[MAX_ARGS], *ansArgs[MAX_ARGS];
+int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
+    char cmdCommand[MAX_LENGTH];
+    char cmdOptions[MAX_LENGTH];
+    char cmdBuffer[MAX_LENGTH];
+    char *cmdArgs[MAX_ARGS];
 
     strcpy(cmdBuffer, cmd);
-    strcpy(ansBuffer, ans);
 
     int cmdCounter = parseCmd(cmdBuffer, cmdArgs, cmdCommand, cmdOptions);
-    int ansCounter = parseCmd(ansBuffer, ansArgs, ansCommand, ansOptions);
-    if (cmdCounter == 0 || ansCounter == 0 || strcmp(cmdArgs[0], ansArgs[0]) != 0) {
+
+    if (cmdCounter == 0 || strcmp(cmdArgs[0], command) != 0) {
         return 0;
     }
-
-    int matchTrack[MAX_ARGS] = {0};
-    for (int i = 1; i < cmdCounter; i++) {
-        int matched = 0;
-        for (int j = 1; j < ansCounter; j++) {
-            if (!matchTrack[j] && strcmp(cmdArgs[i], ansArgs[j]) == 0){
-                matchTrack[j] = 1;
-                matched = 1;
-                break;
+    if (argsCount!=0 && cmdCounter != 1) {
+        int matchTrack[MAX_ARGS] = {0};
+        for (int i = 1; i < cmdCounter; i++) {
+            int matched = 0;
+            for (int j = 0; j < argsCount; j++) {
+                if (!matchTrack[j] && strcmp(cmdArgs[i], arguments[j]) == 0){
+                    matchTrack[j] = 1;
+                    matched = 1;
+                    break;
+                }
+            }
+            if (!matched) {
+                return 0;
             }
         }
-        if (!matched) {
-            return 0;
+
+        for (int j=0; j<argsCount; j++) {
+            if (!matchTrack[j]) {
+                return 0;
+            }
         }
+
+    } else {
+        return 0;
     }
 
     return 1;
 }
 
 
-int processInput(char *command, size_t size, char *answer, int *life) {
-    char *input = userInput(command, size);
-    int checkAns = compareCmd(input, answer);
+int processInput(char *answer, size_t size, char *command, char *arguments[], int argsCount, int *life) {
+    char *input = userInput(answer, size);
+    int checkAns = compareCmd(input, command, arguments, argsCount);
 
     while (checkAns == 0) {
         if (strcmp(input, "back") == 0) {
@@ -178,8 +198,8 @@ int processInput(char *command, size_t size, char *answer, int *life) {
                 return 0;
             }
         }
-        input = userInput(command, size);
-        checkAns = compareCmd(input, answer);
+        input = userInput(answer, size);
+        checkAns = compareCmd(input, command, arguments, argsCount);
     }
 
     return 1;
@@ -189,15 +209,22 @@ int processInput(char *command, size_t size, char *answer, int *life) {
 void scenarioViewer (struct Incident *incident) {
     int status;
     int life = 5;
-    char command[200];
-    char *answer;
+    int argsCount;
+    char answer[200];
+    char *command;
+    char **arguments;
 
     printf("%s\n", incident->title);
     printf("%s\n", incident->background);
     for (int step = 0; step < incident->stepCount; step++) {
         printf("\n%d. %s", incident->steps[step].stepNo, incident->steps[step].question);
-        answer = incident->steps[step].answer;
-        status = processInput(command, sizeof(command), answer, &life);
+        command = incident->steps[step].command;
+        if (incident->steps[step].arguments != NULL) {
+            arguments = incident->steps[step].arguments;
+            argsCount = getNumArgs(arguments);
+            printf("%d", argsCount);
+        }
+        status = processInput(answer, sizeof(answer), command, arguments, argsCount, &life);
         if (status == 1) {
             printf("%s", incident->steps[step].terminalOut);
         } else {

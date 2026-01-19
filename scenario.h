@@ -11,7 +11,8 @@ struct Incident {
 struct Playbook {
     int stepNo;
     char *question;
-    char *answer;
+    char *command;
+    char *arguments[32];
     char *terminalOut;
 };
 
