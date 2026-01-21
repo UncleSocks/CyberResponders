@@ -238,10 +238,19 @@ void scenarioViewer (struct Incident *incident) {
 
 
 char commandViewer (struct Commands *comm, int count) {
+
+    printf("%-12s   %s\n\n", "COMMAND", "DESCRIPTION");
+
     for (int command = 0; command < count; command++) {
-        printf("Command: %s\n", comm[command].name);
-        printf("Description: %s\n", comm[command].description);
-        printf("Syntax: %s\n", comm[command].syntax);
+        printf("%-12s   %s\n", comm[command].name, comm[command].description);
+        printf("SYNTAX: %s\n", comm[command].syntax);
+        printf("OPTIONS:\n");
+
+        for (int option = 0; option < comm[command].optionCount; option++) {
+            printf(" %-12s   %s\n",comm[command].option[option].parameter, comm[command].option[option].description);
+        }
+        printf("\n\n");
+
     }
 }
 

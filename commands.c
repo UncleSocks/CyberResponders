@@ -28,7 +28,7 @@ struct Commands commandList[] = {
     {
         .no = 1, 
         .name = "tasklist",
-        .description = "Displays a list of currently running processes on the local computer or on a remote computer. Tasklist replaces the tlist tool.",
+        .description = "Displays a list of currently running processes on the local computer or on a remote computer.",
         .syntax = "tasklist /fi", 
         .option = c1Options,
         .optionCount = sizeof(c1Options) / sizeof(c1Options[0])
