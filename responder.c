@@ -19,6 +19,9 @@ void mainMenu() {
             "|   1. Respond  <--------------------------------- |\n"
             "|   2. Commands  <-------------------------------- |\n"
             "|   3. Exit  <------------------------------------ |\n"
+            "|                                                  |\n"
+            "|                                                  |\n"
+            "| By: @unclesocks                             v0.1 |\n"
             "====================================================\n";
 
     printf("%s", menuPage);
@@ -149,6 +152,9 @@ int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
 
     int cmdCounter = parseCmd(cmdBuffer, cmdArgs, cmdCommand, cmdOptions);
 
+    printf("%s", command);
+    printf("%s", cmdArgs[0]);
+
     if (cmdCounter == 0 || strcmp(cmdArgs[0], command) != 0) {
         return 0;
     }
@@ -174,6 +180,8 @@ int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
             }
         }
 
+    } else if (argsCount==0 && cmdCounter==1 && strcmp(cmdArgs[0], command) == 0) {
+        ;
     } else {
         return 0;
     }
@@ -239,6 +247,7 @@ void scenarioViewer (struct Incident *incident) {
 
 char commandViewer (struct Commands *comm, int count) {
 
+    printf("\n");
     printf("%-12s   %s\n\n", "COMMAND", "DESCRIPTION");
 
     for (int command = 0; command < count; command++) {

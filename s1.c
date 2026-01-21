@@ -51,14 +51,15 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 5,
             .question = "Identify and delete the scheduled task used for persistence.\n",
-            .command = "schtasks /delete /tn MSUpdate",
-            .arguments = {"delete", "tn MSUpdate", NULL},
+            .command = "schtasks",
+            .arguments = {"delete", "tn msupdate", NULL},
             .terminalOut = "Scheduled task 'MSUpdate' successfully deleted.\n"
         },
         {
             .stepNo = 6,
-            .question = "Enumerate the contents of the Temp directory of user 'wapols.'\nNote: Make sure to add the trailing '\\' character.\n",
-            .command = "dir C:\\Users\\wapols\\AppData\\Local\\Temp",
+            .question = "Enumerate the contents of the Temp directory of user 'wapols' under its Local AppData folder. \nNote: Do not add the trailing a backslash.\n",
+            .command = "dir c:\\users\\wapols\\appdata\\local\\temp",
+            .arguments = {NULL},
             .terminalOut = "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
                 "=================================================================\n"
                 "| Date Modified       | Type     | Size        | Name           |\n"
@@ -76,13 +77,15 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 7,
             .question = "Identify and delete the malicious binary in the user's Temp folder.\n",
-            .command = "del C:\\Users\\wapols\\AppData\\Local\\Temp\\436Pds.dll",
+            .command = "del c:\\users\\wapols\\appdata\\local\\temp\\436pds.dll",
+            .arguments = {NULL},
             .terminalOut = "File '436Pds.dll' successfully deleted.\n"
         },
         {
             .stepNo = 8,
             .question = "Identify and confirm the directory where the threat actor is staging the data to be exfiltrated.\n",
-            .command = "dir C:\\Temp",
+            .command = "dir c:\\temp",
+            .arguments = {NULL},
             .terminalOut = "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
                 "=================================================================\n"
                 "| Date Modified       | Type     | Size        | Name           |\n"
@@ -96,14 +99,14 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 9,
             .question = "Delete the 'Temp' directory with the exfiltrated files.\n",
-            .command = "rmdir C:\\Temp",
+            .command = "rmdir c:\\temp",
             .arguments = {"s", NULL},
             .terminalOut = "Directory 'C:\\Temp' successfully deleted.\n"
         }, 
         {
             .stepNo = 10,
-            .question = "To further remediate the risk of re-compromise, reset the password of the affected user to 't3mpp@ss'\n",
-            .command = "net user wapols T3mpP@ss",
+            .question = "To further remediate the risk of re-compromise, reset the password of the affected user to a temporary value: p@ssw0rd1.\n",
+            .command = "net user wapols p@ssw0rd1",
             .terminalOut = "Password for user 'wapols' has been changed.\n"
         }
 
