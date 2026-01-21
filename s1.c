@@ -58,7 +58,7 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 6,
             .question = "Enumerate the contents of the Temp directory of user 'wapols.'\nNote: Make sure to add the trailing '\\' character.\n",
-            .command = "dir C:\\Users\\wapols\\AppData\\Local\\Temp\\",
+            .command = "dir C:\\Users\\wapols\\AppData\\Local\\Temp",
             .terminalOut = "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
                 "=================================================================\n"
                 "| Date Modified       | Type     | Size        | Name           |\n"
@@ -82,7 +82,7 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 8,
             .question = "Identify and confirm the directory where the threat actor is staging the data to be exfiltrated.\n",
-            .command = "dir C:\\Temp\\",
+            .command = "dir C:\\Temp",
             .terminalOut = "Directory of C:\\Users\\wapols\\AppData\\Local\\Temp\n"
                 "=================================================================\n"
                 "| Date Modified       | Type     | Size        | Name           |\n"
@@ -96,7 +96,7 @@ struct Playbook s1Steps[] = {
         {
             .stepNo = 9,
             .question = "Delete the 'Temp' directory with the exfiltrated files.\n",
-            .command = "rmdir C:\\Temp\\",
+            .command = "rmdir C:\\Temp",
             .arguments = {"s", NULL},
             .terminalOut = "Directory 'C:\\Temp' successfully deleted.\n"
         }, 

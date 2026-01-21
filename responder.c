@@ -4,6 +4,7 @@
 #include <ctype.h>
 
 #include "scenario.h"
+#include "command.h"
 
 #define MAX_ARGS 10
 #define MAX_LENGTH 256
@@ -236,6 +237,15 @@ void scenarioViewer (struct Incident *incident) {
 }
 
 
+char commandViewer (struct Commands *comm, int count) {
+    for (int command = 0; command < count; command++) {
+        printf("Command: %s\n", comm[command].name);
+        printf("Description: %s\n", comm[command].description);
+        printf("Syntax: %s\n", comm[command].syntax);
+    }
+}
+
+
 void displayCases () {
     printf("\n====================================== CASE LIST ======================================\n");
     for (int i = 0; i < caseList; i++) {
@@ -277,7 +287,7 @@ int main() {
             caseSelector();
             mainMenu();
         } else if ((strcmp(menuSelected, "commands") == 0) || (strcmp(menuSelected, "2") == 0)) {
-            printf("Go to command list page...");
+            commandViewer(commandList, commandCount);
             mainMenu();
         } else if ((strcmp(menuSelected, "exit") == 0) || (strcmp(menuSelected, "3") == 0)) {
             printf("Exiting...");
