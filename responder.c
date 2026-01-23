@@ -101,13 +101,15 @@ int getNumArgs(char *args[]) {
 int parseCmd(char *cmd, char *args[MAX_ARGS], char *command, char *options) {
     int argsCounter = 1;
     char *optionStart = strchr(cmd, '/');
+
+
     if(optionStart != NULL) {
         size_t cmdLen = optionStart - cmd;
         strncpy(command, cmd, cmdLen);
         command[cmdLen] = '\0';
-
         char *trimmedCmd = trimStr(command);
         memmove(command, trimmedCmd, strlen(trimmedCmd) + 1);
+        strToLower(command);
         args[0] = command;
         strcpy(options, optionStart);
         char *pointer = options;
@@ -152,8 +154,6 @@ int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
 
     int cmdCounter = parseCmd(cmdBuffer, cmdArgs, cmdCommand, cmdOptions);
 
-    printf("%s", command);
-    printf("%s", cmdArgs[0]);
 
     if (cmdCounter == 0 || strcmp(cmdArgs[0], command) != 0) {
         return 0;
