@@ -252,7 +252,7 @@ char commandViewer (struct Commands *comm, int count) {
 
     for (int command = 0; command < count; command++) {
         printf("%-12s   %s\n", comm[command].name, comm[command].description);
-        printf("SYNTAX: %s\n", comm[command].syntax);
+        printf("%-12s   %s\n", "SYNTAX:", comm[command].syntax);
         printf("OPTIONS:\n");
 
         for (int option = 0; option < comm[command].optionCount; option++) {
