@@ -64,13 +64,14 @@ struct Playbook s2Steps [] = {
 };
 
 struct Incident s2 = {
-    .title = "\n\nCASE-IR-2: APT-COMPROMISED ENDPOINT RELATED TO THE FUNNYDREAM CAMPAIGN",
+    .title = "\n\nCASE-IR-2: APT-COMPROMISED ENDPOINT RELATED TO THE FUNNYDREAM CAMPAIGN\n",
     .background = 
-        "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines.\n"
-        "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n"
-        "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,\n"
+        "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines."
+        "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n\n"
+        "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,"
         "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory"
-        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain.\n",
+        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain.\n\n"
+        "Tip: Use additional OSINT to better understand the campaign and threat actor.",
     .steps = s2Steps,
     .stepCount = sizeof(s2Steps) / sizeof(s2Steps[0])
 };
