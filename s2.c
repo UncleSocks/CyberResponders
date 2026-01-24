@@ -60,6 +60,29 @@ struct Playbook s2Steps [] = {
             "| TCP   | 192.168.23.202:52456   | 160.16.200.77:21       | ESTABLISHED | 19356  |\n"
             "| TCP   | 192.168.23.202:52457   | 216.239.34.157:443     | TIME_WAIT   | 0      |\n"
             "==================================================================================\n"
+    },
+    {
+        .stepNo = 5,
+        .question = "After identifying the malicious process, kill it using its process ID (PID).\n",
+        .command = "taskkill",
+        .arguments = {"pid 19356", NULL},
+        .terminalOut = "Process ccf32:19356 successfully killed.\n"
+    },
+    {
+        .stepNo = 6,
+        .question = "To ensure that re-infection will not occur, the persistence mechanism of the threat actor needs to be determined.\n",
+        .command = "reg query hklm\\software\\microsoft\\windows\\currentversion\\run",
+        .arguments = {NULL},
+        .terminalOut = 
+            "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\n"
+            "========================================================================================================\n"
+            "| Name           | Type          | Data                                                                |\n"
+            "========================================================================================================\n"
+            "| (Default)      | REG_SZ        | (value not set)                                                     |\n"
+            "| unikey         | REG_SZ        | C:\\users\\wapols\\appdata\\local\\temp\\UniKeyTN.exe                     |\n"
+            "| SecurityHealth | REG_EXPAND_SZ | %%windir%%\\system32\\SecurityHealthSystray.exe                       |\n"
+            "| OneDrive       | REG_SZ        | ""C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe"" /background       |\n"
+            "========================================================================================================\n"
     }
 };
 
@@ -70,7 +93,8 @@ struct Incident s2 = {
         "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n\n"
         "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,"
         "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory"
-        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain.\n\n"
+        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain"
+        "persistence in the infected machine.\n"
         "Tip: Use additional OSINT to better understand the campaign and threat actor.",
     .steps = s2Steps,
     .stepCount = sizeof(s2Steps) / sizeof(s2Steps[0])

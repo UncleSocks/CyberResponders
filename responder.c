@@ -154,7 +154,6 @@ int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
 
     int cmdCounter = parseCmd(cmdBuffer, cmdArgs, cmdCommand, cmdOptions);
 
-
     if (cmdCounter == 0 || strcmp(cmdArgs[0], command) != 0) {
         return 0;
     }
