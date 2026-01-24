@@ -70,8 +70,7 @@ struct Incident s2 = {
         "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n"
         "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,\n"
         "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory"
-        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain\n"
-        "maintain its persistence on the infected machine.\n",
+        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain.\n",
     .steps = s2Steps,
     .stepCount = sizeof(s2Steps) / sizeof(s2Steps[0])
 };
