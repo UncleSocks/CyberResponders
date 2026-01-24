@@ -17,7 +17,7 @@ struct Playbook {
 };
 
 struct Cases {
-    char *caseId;
+    int caseId;
     char *caseTitle;
     struct Incident *incidentPtr;
 };
@@ -27,5 +27,6 @@ extern struct Cases list[];
 extern int caseList;
 
 extern struct Incident s1;
+extern struct Incident s2;
 
 #endif

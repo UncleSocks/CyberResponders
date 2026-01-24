@@ -267,30 +267,35 @@ char commandViewer (struct Commands *comm, int count) {
 void displayCases () {
     printf("\n====================================== CASE LIST ======================================\n");
     for (int i = 0; i < caseList; i++) {
-        printf("ID: %s - %s", list[i].caseId, list[i].caseTitle);
+        printf("ID: %d - %s\n", list[i].caseId, list[i].caseTitle);
     }
-    printf("\n=======================================================================================\n");
+    printf("=======================================================================================\n");
     return;
 }
 
 
 void caseSelector () {
     char selectedCase[32];
+    int selectedCaseId;
+    int index;
     displayCases ();
     printf("Select a case ID to respond:\n");
     userInput(selectedCase, sizeof(selectedCase));
-    for (int i = 0; i < caseList; i++) {
-        while (strcmp(selectedCase, list[i].caseId) != 0) {
-            if (strcmp(selectedCase, "back") == 0 ) {
-                return;
-            }
-            printf("Case ID not found. Please try again.\n");
-            userInput(selectedCase, sizeof(selectedCase));
-        }
-        scenarioViewer(list[i].incidentPtr);
-        return;
-    }
+    selectedCaseId = atoi(selectedCase);
+    index = selectedCaseId - 1;
 
+    while (!(index >= 0 && index < caseList)) {
+        if (strcmp(selectedCase, "back") == 0 ){
+            return;
+        }
+        printf("Case ID not found. Please try again.\n");
+        userInput(selectedCase, sizeof(selectedCase));
+        selectedCaseId = atoi(selectedCase);
+        index = selectedCaseId - 1;
+    } 
+
+    scenarioViewer(list[index].incidentPtr);
+    
 }
 
 
