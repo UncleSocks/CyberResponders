@@ -132,7 +132,7 @@ struct Playbook s2Steps [] = {
     },
     {
         .stepNo = 10,
-        .question = "As part of the eradication step, delete all EXE files in Public user's directory.",
+        .question = "As part of the eradication step, delete all EXE files in Public user's directory.\n",
         .command = "del *.exe",
         .arguments = {NULL},
         .terminalOut = "The operation completed successful.\n"
@@ -142,7 +142,7 @@ struct Playbook s2Steps [] = {
 struct Incident s2 = {
     .title = "\n\nCASE-IR-2: APT-COMPROMISED ENDPOINT RELATED TO THE FUNNYDREAM CAMPAIGN\n",
     .background = 
-        "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines."
+        "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines.\n"
         "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n\n"
         "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,\n"
         "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory\n"
