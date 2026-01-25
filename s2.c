@@ -79,10 +79,63 @@ struct Playbook s2Steps [] = {
             "| Name           | Type          | Data                                                                |\n"
             "========================================================================================================\n"
             "| (Default)      | REG_SZ        | (value not set)                                                     |\n"
-            "| unikey         | REG_SZ        | C:\\users\\wapols\\appdata\\local\\temp\\UniKeyTN.exe                     |\n"
+            "| unikey         | REG_SZ        | C:\\users\\public\\UniKeyTN.exe                                        |\n"
             "| SecurityHealth | REG_EXPAND_SZ | %%windir%%\\system32\\SecurityHealthSystray.exe                       |\n"
-            "| OneDrive       | REG_SZ        | ""C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe"" /background       |\n"
+            "| OneDrive       | REG_SZ        | ""C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe"" /background        |\n"
             "========================================================================================================\n"
+    },
+    {
+        .stepNo = 7,
+        .question = "Delete the malicious Run registry value to remove the threat actor's persistence in the machine.\n",
+        .command = "reg delete hklm\\software\\microsoft\\windows\\currentversion\\run",
+        .arguments = {"v unikey", NULL},
+        .terminalOut = "The operation completed successful.\n"
+    },
+    {
+        .stepNo = 8,
+        .question = "Enumerate the Public user's root directory to identify other malicious files staged by the threat actor.\n",
+        .command = "dir c:\\users\\public",
+        .arguments = {NULL},
+        .terminalOut = 
+            "Directory of C:\\Users\\Public\n"
+            "=======================================================================\n"
+            "| Date Modified        | Type    | Size      | Name                   |\n"
+            "=======================================================================\n"
+            "| 03/16/2026 1:00 PM   | <DIR>   |           | .                      |\n"
+            "| 03/16/2026 1:00 PM   | <DIR>   |           | ..                     |\n"
+            "| 03/16/2026 1:47 PM   | <DIR>   |           | Public Documents       |\n"
+            "| 03/16/2026 1:47 PM   | <DIR>   |           | Public Downloads       |\n"
+            "| 03/16/2026 1:47 PM   | <DIR>   |           | Public Music           |\n"
+            "| 03/16/2026 1:47 PM   | <DIR>   |           | Public Pictures        |\n"
+            "| 03/16/2026 1:47 PM   | <DIR>   |           | Public Videos          |\n"
+            "| 03/16/2026 1:47 PM   | <DIR>   |           | Roaming                |\n"
+            "| 03/26/2026 2:18 AM   |         | 160,389   | ccf32.exe              |\n"
+            "| 03/26/2026 2:19 AM   |         | 115,652   | UniKeyTN.exe           |\n"
+            "| 03/26/2026 2:19 AM   |         | 167,102   | filepak.exe            |\n"
+            "| 03/26/2026 2:19 AM   |         | 43,062    | y54947.exe             |\n"
+            "| 03/26/2026 2:19 AM   |         | 44,773    | M93732.exe             |\n"
+            "| 03/26/2026 2:19 AM   |         | 44,893    | x4984.exe              |\n"
+            "| 03/26/2026 2:23 AM   |         | 8,192     | NTUSER.dat             |\n"
+            "=======================================================================\n"
+    },
+    {
+        .stepNo = 9,
+        .question = "Compute the SHA256 file hash of ccf32.exe to enable the client to add it to their list of IOCs.\nNote: This is the CMD console and use the absolute file path.\n",
+        .command = "powershell",
+        .arguments = {"command \"get-filehash c:\\users\\public\\ccf32.exe\"", NULL},
+        .terminalOut = 
+            "=================================================================================================================\n"
+            "| Algorithm  | Hash                                                             | Path                          |\n"
+            "=================================================================================================================\n"
+            "| SHA256     | 1cd8b6f1e2d49e6605f5ae695ea126eee8c82264a9644758126a4c30662ce9d5 | C:\\Users\\Public\\ccf32.exe     |\n"
+            "=================================================================================================================\n"
+    },
+    {
+        .stepNo = 10,
+        .question = "As part of the eradication step, delete all EXE files in Public user's directory.",
+        .command = "del *.exe",
+        .arguments = {NULL},
+        .terminalOut = "The operation completed successful.\n"
     }
 };
 
@@ -91,9 +144,9 @@ struct Incident s2 = {
     .background = 
         "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines."
         "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n\n"
-        "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,"
-        "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory"
-        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain"
+        "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,\n"
+        "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory\n"
+        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain\n"
         "persistence in the infected machine.\n"
         "Tip: Use additional OSINT to better understand the campaign and threat actor.",
     .steps = s2Steps,
