@@ -33,17 +33,24 @@ void mainMenu() {
 void helpMenu() {
 
     char *helpPage = 
-        "=================================================================\n"
-        "| Command       | Description                                   |\n"
-        "|===============================================================|\n"
-        "| del           | Delete a file.                                |\n"
-        "| dir           | Enumerate a folder (directory).               |\n"
-        "| mstsc         | Interactively connect to a remote desktop.    |\n"
-        "| rmdir         | Delete a folder (directory).                  |\n"
-        "| schtasks      | Manage scheduled tasks.                       |\n" 
-        "| tasklist      | List the processes.                           |\n"
-        "| taskkill      | Kill a process.                               |\n"
-        "=================================================================\n";
+        "============================================================================\n"
+        "| Command       | Description                                              |\n"
+        "============================================================================\n"
+        "| del           | Delete a file.                                           |\n"
+        "| dir           | Enumerate a folder (directory).                          |\n"
+        "| ipconfig      | Displays network configuration                           |\n"
+        "| mstsc         | Interactively connect to a remote desktop.               |\n"
+        "| netstat       | Displays active TCP connections and ports.               |\n"
+        "| powershell    | A task-based command-line shell and scripting language.  |\n"
+        "| reg delete    | Deletes an entry from the registry.                      |\n"
+        "| reg query     | Returns a list of subkeys and entries.                   |\n"
+        "| rmdir         | Delete a folder (directory).                             |\n"
+        "| schtasks      | Manage scheduled tasks.                                  |\n"
+        "| systeminfo    | Displays computer configuration information.             |\n" 
+        "| tasklist      | List the processes.                                      |\n"
+        "| taskkill      | Kill a process.                                          |\n"
+        "| tzutil        | Displays the Windows Time Zone utility.                  |\n"
+        "============================================================================\n";
     printf("%s", helpPage);
     return;
 }
