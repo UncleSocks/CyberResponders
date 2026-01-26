@@ -101,7 +101,6 @@ struct Options tasklistOptions[] = {
 
 struct Commands commandList[] = {
     {
-        .no = 1,
         .name = "del",
         .description = "Deletes one or more files.",
         .syntax = "del [/s] <names>",
@@ -110,7 +109,6 @@ struct Commands commandList[] = {
 
     },
     {
-        .no = 2,
         .name = "dir",
         .description = "Displays a list of a directory's files and subdirectories.",
         .syntax = "dir [<drive>:][<path>][<filename>]",
@@ -118,7 +116,6 @@ struct Commands commandList[] = {
         .optionCount = sizeof(dirOptions) / sizeof(dirOptions[0])
     },
     {
-        .no = 3,
         .name = "mstsc",
         .description = "Creates connections to Remote Desktop Session Host servers or other remote computers.",
         .syntax = "mstsc [<connectionfile] [/v:<server>[:<port>]] /admin",
@@ -126,7 +123,6 @@ struct Commands commandList[] = {
         .optionCount = sizeof(mstscOptions) / sizeof(mstscOptions[0])
     },
     {
-        .no = 4,
         .name = "rmdir",
         .description = "Deletes a directory.",
         .syntax = "rmdir [<drive>:]<path> [/s]",
@@ -134,7 +130,6 @@ struct Commands commandList[] = {
         .optionCount = sizeof(rmdirOptions) / sizeof(rmdirOptions[0])
     },
     {
-        .no = 5,
         .name = "schtasks",
         .description = "Schedules commands and programs to run periodically or at a specific time, adds and removes tasks from the schedule, starts and stops tasks on demand, and displays and changes scheduled tasks.",
         .syntax = "schtasks [</query> | /delete [/tn {<taskname>}]]",
@@ -142,7 +137,6 @@ struct Commands commandList[] = {
         .optionCount = sizeof(schtasksOptions) / sizeof(schtasksOptions[0])
     },
     {
-        .no = 1,
         .name = "taskkill",
         .description = "Ends one or more tasks or processes. Processes can be ended by process ID or image name.",
         .syntax = "taskkill [/pid <processID> | /im <imageName>]",
@@ -150,7 +144,6 @@ struct Commands commandList[] = {
         .optionCount = sizeof(taskkillOptions) / sizeof(taskkillOptions[0])
     },
     {
-        .no = 2, 
         .name = "tasklist",
         .description = "Displays a list of currently running processes on the local computer or on a remote computer.",
         .syntax = "tasklist /fi", 

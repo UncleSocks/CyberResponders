@@ -2,7 +2,6 @@
 #define COMMAND_H
 
 struct Commands {
-    int no;
     char *name;
     char *description;
     char *syntax;
