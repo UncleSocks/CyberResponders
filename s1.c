@@ -116,13 +116,13 @@ struct Playbook s1Steps[] = {
 struct Incident s1 = {
     .title = "\n\nCASE-IR-1: UNKNOWN MALWARE INFECTION ON A WORKSTATION\n",
     .background =         
-        "Meeps Security has identified that endpoint CORP\\WST1 (192.168.50.100) has been compromised by a malware.\n"
-        "According to the client's Cyber Threat Intelligence group, the malware is known to spoof well-known Microsoft\n"
-        "processes. It was also observed that the threat actor behind the attack uses scheduled tasks to maintain per-\n"
-        "sistence.\n\n"
-        "OSINT research also showed that organizations that have been compromised by the same threat actor reported\n"
-        "a suspicious 'Temp' folder located in the root drive, where the exfiltrated data is being staged. Furthermore,\n"
-        "an adisory from CISA confirms that the threat actor utilizes EC2 instances for command & control (C2).\n\n"
+        "Meeps Security has identified that endpoint CORP\\WST1 (192.168.50.100) has been compromised by a malware. "
+        "According to the client's Cyber Threat Intelligence group, the malware is known to spoof well-known Microsoft "
+        "processes. It was also observed that the threat actor behind the attack uses scheduled tasks to maintain per-"
+        "sistence.\n"
+        "OSINT research also showed that organizations that have been compromised by the same threat actor reported "
+        "a suspicious 'Temp' folder located in the root drive, where the exfiltrated data is being staged. Furthermore, "
+        "an adisory from CISA confirms that the threat actor utilizes EC2 instances for command & control (C2).\n"
         "As one of the incident responders, follow the response playbook to remediate the risk.\n",
     .steps = s1Steps,
     .stepCount = sizeof(s1Steps) / sizeof(s1Steps[0])

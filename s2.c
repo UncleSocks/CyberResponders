@@ -43,7 +43,8 @@ struct Playbook s2Steps [] = {
     },
     {
         .stepNo = 4,
-        .question = "Enumerate the active network connections of the machine and note the malicious PID that is associated with data exfiltration.\n",
+        .question = "Enumerate the active network connections of the machine and associated process IDs (PIDs) only to identify potential data exfiltration attempts.\n"
+            "Note: To easily determine the protocol, do not display the port numbers in numerical form.\n",
         .command = "netstat",
         .arguments = {"o", NULL},
         .terminalOut = 
@@ -55,10 +56,10 @@ struct Playbook s2Steps [] = {
             "| TCP   | 127.0.0.1:51795        | WIN-END-PH10:51800     | ESTABLISHED | 8996   |\n"
             "| TCP   | 127.0.0.1:51800        | WIN-END-PH10:51795     | ESTABLISHED | 15688  |\n"
             "| TCP   | 127.0.0.1:51801        | WIN-END-PH10:51794     | ESTABLISHED | 15688  |\n"
-            "| TCP   | 192.168.23.202:52454   | 20.189.173.4:443       | ESTABLISHED | 11600  |\n"
-            "| TCP   | 192.168.23.202:52455   | edge-dgw-03-mnl3:443   | ESTABLISHED | 11600  |\n"
-            "| TCP   | 192.168.23.202:52456   | 160.16.200.77:21       | ESTABLISHED | 19356  |\n"
-            "| TCP   | 192.168.23.202:52457   | 216.239.34.157:443     | TIME_WAIT   | 0      |\n"
+            "| TCP   | 192.168.23.202:52454   | 20.189.173.4:https     | ESTABLISHED | 11600  |\n"
+            "| TCP   | 192.168.23.202:52455   | edge-dgw-03-mnl3:https | ESTABLISHED | 11600  |\n"
+            "| TCP   | 192.168.23.202:52456   | 160.16.200.77:ftp      | ESTABLISHED | 19356  |\n"
+            "| TCP   | 192.168.23.202:52457   | 216.239.34.157:https   | TIME_WAIT   | 0      |\n"
             "==================================================================================\n"
     },
     {
@@ -132,7 +133,7 @@ struct Playbook s2Steps [] = {
     },
     {
         .stepNo = 10,
-        .question = "As part of the eradication step, delete all EXE files in Public user's directory.\n",
+        .question = "As part of the eradication steps, delete all EXE files in Public user's directory.\n",
         .command = "del *.exe",
         .arguments = {NULL},
         .terminalOut = "The operation completed successful.\n"
@@ -142,13 +143,14 @@ struct Playbook s2Steps [] = {
 struct Incident s2 = {
     .title = "\n\nCASE-IR-2: APT-COMPROMISED ENDPOINT RELATED TO THE FUNNYDREAM CAMPAIGN\n",
     .background = 
-        "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines.\n"
+        "Meeps Security responded to a cyber incident that occurred to one of its clients based in the Philippines. "
         "The initial findings provided by the client indicate that the attack is part of the FunnyDream campaign.\n\n"
-        "Reports of this campaign indicates that the threat actor uses built-in Windows commands to collect system information,\n"
-        "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory\n"
-        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain\n"
-        "persistence in the infected machine.\n"
-        "Tip: Use additional OSINT to better understand the campaign and threat actor.",
+        "Reports of this campaign suggests that the threat actor uses built-in Windows commands to collect system information, "
+        "which are then exfiltrated using File Transfer Protocol (FTP). Additionally, it leverages the root directory "
+        "of the Public user to stage its malware. The threat actor also abuses the Run registry key to maintain "
+        "persistence in the infected machine.\n\n"
+        "Follow through the incident response playbook to remediate the risk.\n"
+        "Tip: Use additional OSINT to better understand the campaign and threat actor.\n",
     .steps = s2Steps,
     .stepCount = sizeof(s2Steps) / sizeof(s2Steps[0])
 };
