@@ -196,15 +196,50 @@ int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
 }
 
 
+void processHelp(char *arg, struct Commands *comm, int count) {
+    for (int command = 0; command < count; command++) {
+        if (strcmp(comm[command].name, arg) == 0) {
+            printf("%-12s   %s\n", comm[command].name, comm[command].description);
+            printf("%-12s   %s\n", "SYNTAX:", comm[command].syntax);
+            printf("OPTIONS:\n");
+
+            for (int option = 0; option < comm[command].optionCount; option++) {
+                printf(" %-12s   %s\n",comm[command].option[option].parameter, comm[command].option[option].description);
+            }
+            printf("\n\n");
+
+        }
+    }
+}
+
+
 int processInput(char *answer, size_t size, char *command, char *arguments[], int argsCount, int *life) {
     char *input = userInput(answer, size);
     int checkAns = compareCmd(input, command, arguments, argsCount);
 
     while (checkAns == 0) {
-        if (strcmp(input, "back") == 0) {
+        char *space = strchr(input, ' ');
+        char *cmd = input;
+        char *args = NULL;
+
+        if (space) {
+            *space = '\0';
+            args = space + 1;
+        }
+
+        char *trimmedCmd = trimStr(cmd);
+        memmove(cmd, trimmedCmd, strlen(trimmedCmd) + 1);
+        strToLower(cmd);
+
+        if (strcmp(cmd, "back") == 0 && args == NULL) {
             return 0;
-        } else if (strcmp(input, "help") == 0) {
+        } else if (strcmp(cmd, "help") == 0 && args == NULL) {
             helpMenu();
+        } else if (strncmp(cmd, "help", 4) == 0 && args != NULL) {
+            char *trimmedArgs = trimStr(args);
+            memmove(args, trimmedArgs, strlen(trimmedArgs) + 1);
+            strToLower(args);
+            processHelp(args, commandList, commandCount);
         } else {
             (*life)--;
             printf("Wrong or unrecognized command. You have %d tries remaining\n", *life);
