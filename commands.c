@@ -46,6 +46,60 @@ struct Options mstscOptions[] = {
     }
 };
 
+struct Options netstatOptions[] = {
+    {
+        .no = 1,
+        .parameter = "/a",
+        .description = "Displays all active TCP connections and the TCP and UDP ports on which the computer is listening."
+    },
+    {
+        .no = 2,
+        .parameter = "/n",
+        .description = "Displays active TCP connections, however, addresses and port numbers are expressed numerically and no attempt is made to determine names."
+    },
+    {
+        .no = 3,
+        .parameter = "/o",
+        .description = "Displays active TCP connections and includes the process ID (PID) for each connection."
+    }
+};
+
+struct Options powershellOptions[] = {
+    {
+        .no = 1,
+        .parameter = "/command",
+        .description = "Specifies the powershell command to be executed."
+    }
+};
+
+struct  Options regDeleteOptions[] = 
+{
+    {
+        .no = 1,
+        .parameter = "<keyname>",
+        .description = "Specifies the full path of the subkey or entry to be deleted."
+    },
+    {
+        .no = 2,
+        .parameter = "/v <valuename>",
+        .description = "Deletes a specific entry under the subkey. If no entry is specified, then all entries and subkeys under the subkey will be deleted."
+    }
+};
+
+struct Options regQueryOptions[] = {
+    {
+        .no = 1,
+        .parameter = "<keyname>",
+        .description = "Specifies the full path of the subkey."
+    },
+    {
+        .no = 2,
+        .parameter = "/v <valuename>",
+        .description = "Specifies the registry value name that is to be queried. If omitted, all value names for keyname are returned."
+    }
+};
+
+
 struct Options rmdirOptions[] = {
     {
         .no = 1,
@@ -98,6 +152,14 @@ struct Options tasklistOptions[] = {
     }
 };
 
+struct Options tzutilOptions[] = {
+    {
+        .no = 1,
+        .parameter = "/g",
+        .description = "Displays the current time zone ID."
+    }
+};
+
 
 struct Commands commandList[] = {
     {
@@ -116,11 +178,46 @@ struct Commands commandList[] = {
         .optionCount = sizeof(dirOptions) / sizeof(dirOptions[0])
     },
     {
+        .name = "ipconfig",
+        .description = "Displays all current TCP/IP network configuration values and refreshes Dynamic Host Configuration Protocol (DHCP) and Domain Name System (DNS) settings.",
+        .syntax = "ipconfig",
+        .option = NULL,
+        .optionCount = 0
+    },
+    {
         .name = "mstsc",
         .description = "Creates connections to Remote Desktop Session Host servers or other remote computers.",
         .syntax = "mstsc [<connectionfile] [/v:<server>[:<port>]] /admin",
         .option = mstscOptions,
         .optionCount = sizeof(mstscOptions) / sizeof(mstscOptions[0])
+    },
+    {
+        .name = "netstat",
+        .description = "Displays active TCP connections, ports on which the computer is listening, Ethernet statistics, the IP routing table, IPv4 statistics (for the IP, ICMP, TCP, and UDP protocols), and IPv6 statistics (for the IPv6, ICMPv6, TCP over IPv6, and UDP over IPv6 protocols).",
+        .syntax = "netstat [/a] [/n] [/o]",
+        .option = netstatOptions,
+        .optionCount = sizeof(netstatOptions) / sizeof(netstatOptions[0])
+    },
+    {
+        .name = "powershell",
+        .description = "Windows PowerShell is a task-based command-line shell and scripting language designed especially for system administration.",
+        .syntax = "powershell /command \"command\"",
+        .option = powershellOptions,
+        .optionCount = sizeof(powershellOptions) / sizeof(powershellOptions[0])
+    },
+    {
+        .name = "reg delete",
+        .description = "Deletes a subkey or entries from the registry.",
+        .syntax = "reg delete <keyname> [/v valuename]",
+        .option = regDeleteOptions,
+        .optionCount = sizeof(regDeleteOptions) / sizeof(regDeleteOptions[0])
+    },
+    {
+        .name = "reg query",
+        .description = "Returns a list of the next tier of subkeys and entries that are located under a specified subkey in the registry.",
+        .syntax = "reg query <keyname> [/v valuename]",
+        .option = regQueryOptions,
+        .optionCount = sizeof(regQueryOptions) / sizeof(regQueryOptions[0])
     },
     {
         .name = "rmdir",
@@ -137,6 +234,13 @@ struct Commands commandList[] = {
         .optionCount = sizeof(schtasksOptions) / sizeof(schtasksOptions[0])
     },
     {
+        .name = "systeminfo",
+        .description = "Displays detailed configuration information about a computer and its operating system.",
+        .syntax = "systeminfo",
+        .option = NULL,
+        .optionCount = 0
+    },
+    {
         .name = "taskkill",
         .description = "Ends one or more tasks or processes. Processes can be ended by process ID or image name.",
         .syntax = "taskkill [/pid <processID> | /im <imageName>]",
@@ -149,6 +253,13 @@ struct Commands commandList[] = {
         .syntax = "tasklist /fi", 
         .option = tasklistOptions,
         .optionCount = sizeof(tasklistOptions) / sizeof(tasklistOptions[0])
+    },
+    {
+        .name = "tzutil",
+        .description = "Displays the Windows Time Zone utility.",
+        .syntax = "tzutil [/g]",
+        .option = tzutilOptions,
+        .optionCount = sizeof(tzutilOptions) / sizeof(tzutilOptions[0])
     }
 };
 

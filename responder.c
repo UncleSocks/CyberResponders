@@ -199,15 +199,15 @@ int compareCmd(char *cmd, char *command, char *arguments[], int argsCount) {
 void processHelp(char *arg, struct Commands *comm, int count) {
     for (int command = 0; command < count; command++) {
         if (strcmp(comm[command].name, arg) == 0) {
-            printf("%-12s   %s\n", comm[command].name, comm[command].description);
+            printf("%-12s   %s\n", "COMMAND:", comm[command].name);
+            printf("%-12s   %s\n", "DESCRIPTION:", comm[command].description);
             printf("%-12s   %s\n", "SYNTAX:", comm[command].syntax);
             printf("OPTIONS:\n");
 
             for (int option = 0; option < comm[command].optionCount; option++) {
                 printf(" %-12s   %s\n",comm[command].option[option].parameter, comm[command].option[option].description);
             }
-            printf("\n\n");
-
+            printf("\n");
         }
     }
 }
