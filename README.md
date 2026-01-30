@@ -49,9 +49,10 @@ https://learn.microsoft.com/en-us/windows-server/administration/windows-commands
 <img width="2550" height="1164" alt="image" src="https://github.com/user-attachments/assets/7b97d1ba-86db-454c-8ff8-eb85999a32c4" />
 
 
+--
 
 💡 **Tip:** A **help** command is also available when responding to an incident. Running it without any parameter displays a summary of available Windows CMD command. Players can then run it together with one of the CMD command to display additional information captured from the **Commands** page.
 
 
 # Releases
-An early stage EXE file is available for everyone to play. This version supports two cases but more will be added in the future.
+An early stage EXE (**responder.exe**) file is available for everyone to play. This version supports two cases but more will be added in the future. 
