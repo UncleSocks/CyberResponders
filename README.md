@@ -29,7 +29,7 @@ The game has three options in the main menu:
 To select an option, either enter the number or the actual value. So to respond to an incident, enter **1** or **Respond** to the prompt. Likewise, to view the full list of available Windows commands, enter **2** or **Commands**, and **3** or **Exit** to quit the game. 
 
 ## Responding to Incidents: Selecting A Case
-To start the game, select the **Respond** option. It will then diplay the available cases At the time of writing, the game only has two cases, but I am working hard to add more cases in the future. 
+To start the game, select the **Respond** option. It will then diplay the available cases. At the time of writing, the game only has two cases, but I am working hard to add more cases in the future. 
 
 Simply enter the case ID to respomd to the selected incident. Follow and complete the response playbook by entering the correct Windows CMD command. Players are given five chances to do so before the game is over.
 
@@ -40,7 +40,7 @@ A **back** command is available that will take the players back to the main menu
 
 
 ## The Commands Page
-A **Commands** page is available to help players familiarize with the available Windows CMD commands in the game. This will display all support commands, including their description, syntax, and available parameters (options). These are taken straight from the official Windows commands webpage:
+A **Commands** page is available to help players familiarize with the available Windows CMD commands in the game. This will display all supported commands, including their description, syntax, and available parameters (options). These are taken straight from the official Windows commands webpage:
 
 ```
 https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands
@@ -51,7 +51,7 @@ https://learn.microsoft.com/en-us/windows-server/administration/windows-commands
 
 --
 
-💡 **Tip:** A **help** command is also available when responding to an incident. Running it without any parameter displays a summary of available Windows CMD command. Players can then run it together with one of the CMD command to display additional information captured from the **Commands** page.
+💡 **Tip:** A **help** command is also available when responding to an incident. Running it without any parameter displays a summary of available Windows CMD commands. Players can then run it together with one of the CMD command to display additional information captured from the **Commands** page.
 
 
 # Releases
